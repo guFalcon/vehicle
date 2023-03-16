@@ -1,0 +1,48 @@
+##############################################
+### Greeting
+##############################################
+GET http://localhost:8080/hello
+
+##############################################
+### Vehicle Old
+##############################################
+GET http://localhost:8080/vehicles
+###
+
+GET http://localhost:8080/vehicles/23
+###
+
+GET http://localhost:8080/vehicles/search?id=23
+
+##############################################
+### Vehicle Panache
+##############################################
+
+GET http://localhost:8080/vehicles/count
+
+###
+
+GET http://localhost:8080/vehicles
+###
+
+##############################################
+### Customer Panache
+##############################################
+
+GET http://localhost:8080/customers/count
+
+###
+
+GET http://localhost:8080/customers
+###
+
+##############################################
+### Rental Panache
+##############################################
+
+GET http://localhost:8080/rentals/count
+
+###
+
+GET http://localhost:8080/rentals
+###
