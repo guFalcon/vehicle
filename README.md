@@ -1,56 +1,83 @@
-# vehicle
+# webpack-demo
+Demo for school usage: Quarkus Application Server Backend, Single Source Of Truth Web-Application, Kubernetes Cloud Computing
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+## Overview
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+This project consists of 3 parts:
 
-## Running the application in dev mode
+- the [quarkus](https://quarkus.io/) microprofile [backend](./backend/) service
+- the Frontend Web Application in the [www](./frontend/www/) folder
+- the kubernetes deployment in the [k8s](./k8s/) folder
 
-You can run your application in dev mode that enables live coding using:
-```shell script
-./mvnw compile quarkus:dev
+## Building
+
+The backend server must be compiled and deployed to your github container registry. 
+
+Before building you must follow the steps in [readme.md](./k8s/readme.md) in the k8s folder to change the deployment target to your ghcr.io repository on github.
+
+Then run
+```bash
+./build-and-deploy.sh
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
+# Platforms
+You can run the application on any kubernetes Platform. 
+Examples are:
+- [minikube](https://minikube.sigs.k8s.io/docs/)
+- Docker - Desktop
+- LeoCloud (https://cloud.htl-leonding.ac.at/)
+- any other cloud ...
 
-## Packaging and running the application
+# Requirements
+- jdk
+- maven
+- nodejs
+- npm
+- VS-Code or Intellij
+- docker
+- minikube
+- kubectl
 
-The application can be packaged using:
-```shell script
-./mvnw package
-```
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+## MacOS
+Should work out-of-the box
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+## Linux
+First [install docker](https://docs.docker.com/engine/install/ubuntu/).
+Then add your user to the docker group:
+~~~bash
+sudo usermod -aG docker $USER
+~~~
+Then logout and login again.
 
-If you want to build an _über-jar_, execute the following command:
-```shell script
-./mvnw package -Dquarkus.package.type=uber-jar
-```
+Now you can start docker with:
+~~~bash
+sudo service docker start
+~~~
+There is a script [./k8s/install-kube.sh](./k8s/install-kube.sh) to install minikube and kubectl on Ubuntu.
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+After that start minikube and check that minikube is ready:
+~~~bash
+minikube start
+minikube addons enable dashboard
+minikube addons enable metrics-server
+minikube dashboard
+kubectl get nodes
+~~~
 
-## Creating a native executable
+## Windows
+Windows users should install [Ubuntu on wsl2](https://ubuntu.com/tutorials/install-ubuntu-on-wsl2-on-windows-10#1-overview).
+And then continue using the instructions for linux.
 
-You can create a native executable using: 
-```shell script
-./mvnw package -Pnative
-```
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using: 
-```shell script
-./mvnw package -Pnative -Dquarkus.native.container-build=true
-```
 
-You can then execute your native executable with: `./target/vehicle-1.0.0-SNAPSHOT-runner`
+# Docker-Desktop instead of minikube
+Docker-Desktop can be used instead of minikube and portman. In that case kubernetes must be enabled in Docker-Desktop and then the standard storage class must be installed with [docker-standard-storage-class.yaml](./k8s/docker-desktop/docker-standard-storage-class.yaml):  
 
-If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
+~~~bash
+kubectl apply -f k8s/docker-desktop/docker-standard-storage-class.yaml
+~~~
 
-## Provided Code
-
-### RESTEasy Reactive
-
-Easily start your Reactive RESTful Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+### Installation example for Ubuntu 22
+~~~bash
+sudo apt install -y openjdk-17-jdk maven nodejs npm podman
+~~~
