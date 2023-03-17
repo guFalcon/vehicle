@@ -22,8 +22,7 @@ spec:
           ports:
             - containerPort: 8080
           startupProbe:
-            httpGet:
-              path: /q/health
+            tcpSocket:
               port: 8080
             timeoutSeconds: 5
             initialDelaySeconds: 15
@@ -34,7 +33,7 @@ spec:
             periodSeconds: 10
           livenessProbe:
             httpGet:
-              path: /q/health
+              path: /api/q/health
               port: 8080
             timeoutSeconds: 5
             initialDelaySeconds: 60
