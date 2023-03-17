@@ -16,14 +16,14 @@ spec:
     spec:
       containers:
         - name: appsrv
-          image: ghcr.io/caberger/webpack-demo:latest
+          image: gufalcon/vehicle:latest
           # remove this when stable. Currently we do not take care of version numbers
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
           startupProbe:
             httpGet:
-              path: /api/q/health
+              path: /q/health
               port: 8080
             timeoutSeconds: 5
             initialDelaySeconds: 15
@@ -34,11 +34,11 @@ spec:
             periodSeconds: 10
           livenessProbe:
             httpGet:
-              path: /api/q/health
+              path: /q/health
               port: 8080
             timeoutSeconds: 5
             initialDelaySeconds: 60
-            periodSeconds: 120                
+            periodSeconds: 120
 ---
 apiVersion: v1
 kind: Service
